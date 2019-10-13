@@ -10,8 +10,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonarqube6.7.7') {
                     withMaven(maven:'Apache Maven 3.6.2') {
-                        sh 'mvn clean install'
-			sh 'mvn sonar:sonar'
+                        sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.0.1398:sonar'
                     }
                 }
             }

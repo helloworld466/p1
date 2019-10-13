@@ -1,28 +1,8 @@
-pipeline {
-    agent any
-    stages {
-        stage('SCM') {
-            steps {
-                echo 'Pulled from GIT'
-            }
-        }
-        stage('build && SonarQube analysis') {
-            steps {
-                withSonarQubeEnv('sonarqube6.7.7') {
-                    withMaven(maven:'Apache Maven 3.6.2') {
-                        sh 'mvn clean package sonar:sonar'
-                    }
-                }
-            }
-        }
-        stage("Quality Gate") {
-            steps {
-                timeout(time: 1, unit: 'HOURS') {
-                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-                    // true = set pipeline to UNSTABLE, false = don't
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
+node('docker') {
+  stage('SCM') {
+    echo ('Hi all')
+  }
+  stage('SonarQube Analysis') {
+        sh "/home/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonarqubescanner/bin/sonar-scanner -Dsonar.host.url=http://127.0.0.1:9000 -Dsonar.projectName=meanstackapp -Dsonar.projectVersion=1.0 -Dsonar.projectKey=meanstack:app -Dsonar.sources=. -Dsonar.projectBaseDir=/home/jenkins/workspace/p1"
     }
-}
+  }

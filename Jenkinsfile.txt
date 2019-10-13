@@ -9,7 +9,7 @@ pipeline {
         stage('build && SonarQube analysis') {
             steps {
                 withSonarQubeEnv('sonarqube6.7.7') {
-                    -Dsonar.analysis.mode=preview
+                    -Dsonar.analysis.mode=
                     withMaven(maven:'Apache Maven 3.6.2') {
                         sh 'mvn clean package sonar:sonar'
                     }

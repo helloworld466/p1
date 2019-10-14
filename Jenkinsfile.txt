@@ -14,7 +14,7 @@ pipeline{
 	
 			steps{
         			withSonarQubeEnv('sonarqube') {
-            				echo 'Checking'
+            				sh 'mvn clean package sonar:sonar'
         			}
         		
 				timeout(time: 10, unit: 'MINUTES') {

@@ -6,21 +6,22 @@ pipeline{
 				echo 'Pulled from GIT'
 			}
 		}
-	}
-	stage('Build'){
-		environment{
-        		scannerHome = tool 'sonarqube'
-    		}
+
+		stage('Build'){
+			environment{
+        			scannerHome = tool 'sonarqube'
+    			}
 	
-		steps{
-        		withSonarQubeEnv('sonarqube') {
-            			sh 'mvn clean package sonar:sonar'
-        		}
+			steps{
+        			withSonarQubeEnv('sonarqube') {
+            				sh 'mvn clean package sonar:sonar'
+        			}
         		
-			timeout(time: 10, unit: 'MINUTES') {
-            			waitForQualityGate abortPipeline: true
-        		}
-    		}
+				timeout(time: 10, unit: 'MINUTES') {
+            				waitForQualityGate abortPipeline: true
+        			}
+    			}
+		}
 	}
 }
 
